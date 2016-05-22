@@ -1,0 +1,20 @@
+{
+  "name": "rotate-angular-img-cropper",
+  "version": "1.0.0",
+  "authors": [
+    "Michael McAnulty<michael.mcanulty88@gmail.com>"
+  ],
+  "description": "Rotates images using canvas and the angular-img-cropper directive",
+  "main": "rotate-angular-img-cropper.js",
+  "keywords": [
+    "angular-img-cropper",
+	"rotate",
+	"flip"
+  ],
+  "license": "MIT",
+  "ignore": [
+	"package.json",
+	".git",
+	".txt"
+  ]
+}
