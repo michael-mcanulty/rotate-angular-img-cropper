@@ -19,11 +19,11 @@ Add dependency
 
 Add the image cropper module as a dependancy to your application module:
 ```
-angular.module('myApp', ['angular-img-cropper']);
+angular.module('myApp', ['rotate-angular-img-cropper']);
 ```
 
 <h1>Rotate Button</h1>
-Add two additional attributes to the <code>"<canvas>"</code>
+Add two additional attributes to the `<canvas>`
 
 with the image-cropper attribute.
 - btn-class
