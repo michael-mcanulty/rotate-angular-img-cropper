@@ -2,21 +2,16 @@
 Rotates the source image in angular-img-cropper.
 
 <h1>Requirements</h1>
-<ul>
-  <li>Modern Browser supporting <canvas></li>
-  <li>angular-img-cropper on GitHub.</li>
-</ul>
+- Modern Browser supporting `<canvas>`
+- angular-img-cropper on GitHub.
 
 <h1>Installation</h1>
 
 Download
-<ul>
-   <li>Download rotate-angular-img-cropper files from GitHub.</li>
-</ul>
+- Download rotate-angular-img-cropper files from GitHub.
 Or
-<ul>
-   <li>Install with Bower</li>
-</ul>
+- Install with Bower
+
 ```
 bower install rotate-angular-img-cropper
 ```
@@ -27,4 +22,14 @@ Add the image cropper module as a dependancy to your application module:
 angular.module('myApp', ['angular-img-cropper']);
 ```
 
+<h1>Rotate Button</h1>
+Add two additional attributes to the <code>"<canvas>"</code>
 
+with the image-cropper attribute.
+- btn-class
+- btn-glyph
+
+Add your custom button class, or use Twitter bootstrap. Also, pick an icon such as twitter's glyphicon, or FontAwesome like below:
+```
+ ...btn-class="btn btn-default btn-sm" btn-glyph="fa fa-repeat"></canvas>
+```
