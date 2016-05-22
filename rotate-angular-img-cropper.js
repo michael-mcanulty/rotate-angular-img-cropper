@@ -1,27 +1,18 @@
 'use strict';
 angular.module('rotate-angular-img-cropper', ['angular-img-cropper']).config(function($provide) {
-  $provide.decorator('imageCropperDirective', function($delegate, $rootScope) {
+  $provide.decorator('imageCropperDirective', function($delegate, $rootScope, $compile) {
      var directive = $delegate[0];
      var _link = directive.link;
+	 
      directive.compile = function() {
          return function(scope, element, attrs) {
      	     _link.apply(this, arguments);
-		     var template = '<div>'+
-	 				'   <div class="rotate-btn">'+
-                    '	   <i></i>'+
-                    '      <div class="rotate-label">Rotate</div>' +
-					'   </div>'+
-                    '</div>';
-
+             var template = '<div rotate-button btn-class="'+attrs.btnClass+'"'+' btn-glyph="'+attrs.btnGlyph+'"></div>';
 			 // template logic
-			element.parent().append(template);
-			var button = $(element.siblings()[0]).context;
-			$(button).children().children('i').addClass(attrs.btnGlyph);
-			$(button).children().addClass(attrs.btnClass);
-			$(element.siblings()[0]).bind('click', function(){
-				$rootScope.$broadcast('rotatedCanvas');
-			});
-			
+            var linkFn = $compile(template);
+            var content = linkFn(scope);
+            element.after(content);
+			element.css('display', 'block');
 	        // rotate logic
 			scope.$on('rotatedCanvas', function(){
 			    rotateCanvas();
@@ -69,4 +60,25 @@ angular.module('rotate-angular-img-cropper', ['angular-img-cropper']).config(fun
    };
     return $delegate;
   });
-});
+}).directive('rotateButton', ['$rootScope', function($rootScope){
+	return{
+		restrict: 'A',
+		replace: false,
+	 	template: '<div>'+
+		          '    <div class="rotate-btn">'+
+                  '	       <i class="rotate-glyph"></i>'+
+                  '        <div class="rotate-label">Rotate</div>' +
+                  '    </div>'+
+		          '</div>',
+				  
+	    link: function(scope, element, attrs){
+			console.log(element.parent());
+			      element.css('margin','8px 0');
+			      element.addClass(attrs.btnClass);
+			      element.find('i').addClass(attrs.btnGlyph);
+			      element.bind('click', function(){
+				      $rootScope.$broadcast('rotatedCanvas');
+			});   
+		   }	  
+		};
+	}]);
