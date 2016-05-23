@@ -1,76 +1,80 @@
 'use strict';
 angular.module('rotate-angular-img-cropper', ['angular-img-cropper']).config(function($provide) {
-  $provide.decorator('imageCropperDirective', function($delegate, $rootScope, $compile) {
-     var directive = $delegate[0];
-     var _link = directive.link;
-     directive.compile = function() {
-         return function(scope, element, attrs) {
-		 scope.rotateImgCropper = {};
-			 scope.rotateImgCropper.spinner = {};
-			 scope.rotateImgCropper.canvas = {};
-			 scope.rotateImgCropper.canvas.width = attrs.width;
-			 scope.rotateImgCropper.canvas.height = attrs.height;
-			 scope.rotateImgCropper.canvas.rotate = (/^true$/i).test(attrs.rotate);
+    $provide.decorator('imageCropperDirective', function($delegate, $rootScope, $compile) {
+        var directive = $delegate[0];
+        var _link = directive.link;
+        directive.compile = function() {
+             return function(scope, element, attrs) {
+	         scope.rotateImgCropper = {};
+	   	 scope.rotateImgCropper.spinner = {};
+		 scope.rotateImgCropper.canvas = {};
+		 scope.rotateImgCropper.canvas.width = attrs.width;
+		 scope.rotateImgCropper.canvas.height = attrs.height;
+		 scope.rotateImgCropper.canvas.rotate = (/^true$/i).test(attrs.rotate);
 			 
-			 // only make changes if the rotate="true" attr is present
-			 //this is here for multiple canvases on a page
-				  _link.apply(this, arguments);
-				  var template = '<div ng-show="rotateImgCropper.canvas.rotate" rotate-button btn-class="'+
-                                                      attrs.btnClass+'" btn-glyph="'+attrs.btnGlyph+'"></div>';
-				  // template logic
-				  var linkFn = $compile(template);
-				  var content = linkFn(scope);
-				  element.after(content);
-				  element.css('display', 'block');
-				  // rotate logic
-				  scope.$on('rotatedCanvas', function(){
-					  console.log('processed click');
-					  rotateCanvas();
-				 });
-				  function rotateCanvas (){
-						  var w = 0; // width
-						  var h = 0;  // height
-						  var c = document.createElement("canvas");
-						  var ctx = c.getContext("2d");
-						  var image = new Image();
-						  scope.currDegree = 90;
-						  image.src = scope.image;
-						  w = image.width;
-						  h = image.height;
+		 // only make changes if the rotate="true" attr is present
+		 //this is here for multiple canvases on a page
+		  _link.apply(this, arguments);
+	 	 var template = '<div ng-show="rotateImgCropper.canvas.rotate" rotate-button btn-class="'+
+                                attrs.btnClass+'" btn-glyph="'+attrs.btnGlyph+'"></div>';
+                    
+		// template logic
+	        var linkFn = $compile(template);
+		var content = linkFn(scope);
+		element.after(content);
+		element.css('display', 'block');
+		// rotate logic
+		scope.$on('rotatedCanvas', function(){
+		    rotateCanvas();
+		});
+		
+		function rotateCanvas (){
+		    var w = 0; // width
+		    var h = 0;  // height
+		    var c = document.createElement("canvas");
+		    var ctx = c.getContext("2d");
+		    var image = new Image();
+		    scope.currDegree = 90;
+		    image.src = scope.image;
+		    w = image.width;
+		    h = image.height;
 			  
-						  //One  rotate test
-						  switch(scope.currDegree){
-						  case 90:  rotate(90, h, 0);
-							  break;
-						  case 180:  rotate(180, 0, h);
-							  break;
-						  case 270: rotate(270, 0, w);
-							  break;
-						  case 360: rotate(360, 0, w);
-							  break;
+		    //One  rotate test
+		    switch(scope.currDegree){
+		    case 90:  rotate(90, h, 0);
+		        break;
+		    case 180:  rotate(180, 0, h);
+		        break;
+		    case 270: rotate(270, 0, w);
+		       break;
+		    case 360: rotate(360, 0, w);
+		       break;
 							
-							// no default
-						  }
-						 scope.currDegree +=90;
-						 if(scope.currDegree > 360){
-							  scope.currDegree = 90;
-						 }
-						 function rotate( _deg, _t1, _t2){
-								 c.width = h;
-								 c.height = w;
-								 ctx.translate(_t1, _t2);
-								 ctx.rotate(_deg * Math.PI / 180);
-								 ctx.drawImage(image,0,0, w, h);
-								 ctx.restore(); 
-								 scope.image = c.toDataURL();
-								 //stop spinner when loaded
-								 image.onload = function(){
-									scope.rotateImgCropper.spinner.loading = false;
-									scope.$apply();
-								 };	 
-					  } 
-		  } //end rotate
-	 }; // end if
+		    // no default
+		  }
+		    //increase drgree by 90 on each buttomn click. Reset after 360 is reached
+		    scope.currDegree +=90;
+		    if(scope.currDegree > 360){
+		        scope.currDegree = 90;
+		    }
+		    
+		    function rotate( _deg, _t1, _t2){
+		        c.width = h;
+		        c.height = w;
+		        ctx.translate(_t1, _t2);
+			ctx.rotate(_deg * Math.PI / 180);
+			ctx.drawImage(image,0,0, w, h);
+			ctx.restore(); 
+			scope.image = c.toDataURL();
+			//stop spinner when loaded
+			
+			image.onload = function(){
+		            scope.rotateImgCropper.spinner.loading = false;
+			    scope.$apply();
+			};	 
+		    } 
+	    } //end rotate
+        };
    };
     return $delegate;
   });
@@ -80,13 +84,13 @@ angular.module('rotate-angular-img-cropper', ['angular-img-cropper']).config(fun
 		replace: false,
 	 	template: '<div>'+
 		          '    <div class="rotate-btn">'+
-                  '	       <i class="rotate-glyph"></i>'+
-                  '        <div class="rotate-label">Rotate</div>' +
-                  '    </div>'+
+                          '        <i class="rotate-glyph"></i>'+
+                          '        <div class="rotate-label">Rotate</div>' +
+                          '    </div>'+
 		          '</div>'+
-				  '<div class="loading-spinner" ng-show="rotateImgCropper.spinner.loading"' +
-				      ' ng-style="rotateImgCropper.spinner.style">'+
-    	                          '    <i style="font-size:60px"  class="fa fa-spinner fa-spin"></i>'+
+			  '<div class="loading-spinner" ng-show="rotateImgCropper.spinner.loading"' +
+			       ' ng-style="rotateImgCropper.spinner.style">'+
+    	                  '    <i style="font-size:60px"  class="fa fa-spinner fa-spin"></i>'+
                            '</div>',
 				  
 	    link: function(scope, element, attrs){
