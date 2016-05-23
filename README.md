@@ -41,14 +41,15 @@ Add two additional attributes to the `<canvas>`
 
 with the image-cropper attribute.
 
-- btn-class
+- btn-class = "..."
 
-- btn-glyph
+- btn-glyph = "..."
+
+- rotate = "true"
 
 
 Add your custom button class, or use Twitter bootstrap. Also, pick an icon such as twitter's glyphicon, or FontAwesome like below:
-
 ```
- ...btn-class="btn btn-default btn-sm" btn-glyph="fa fa-repeat"></canvas>
+ ...btn-class="btn btn-default btn-sm" btn-glyph="fa fa-repeat" rotate="true"></canvas>
 ```
 
