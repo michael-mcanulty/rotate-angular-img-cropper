@@ -5,16 +5,18 @@ angular.module('rotate-angular-img-cropper', ['angular-img-cropper']).config(fun
      var _link = directive.link;
      directive.compile = function() {
          return function(scope, element, attrs) {
-			 scope.rotateImgCropper = {};
+		 scope.rotateImgCropper = {};
 			 scope.rotateImgCropper.spinner = {};
 			 scope.rotateImgCropper.canvas = {};
 			 scope.rotateImgCropper.canvas.width = attrs.width;
 			 scope.rotateImgCropper.canvas.height = attrs.height;
+			 scope.rotateImgCropper.canvas.rotate = (/^true$/i).test(attrs.rotate);
+			 
 			 // only make changes if the rotate="true" attr is present
 			 //this is here for multiple canvases on a page
-			 if(attrs.rotate === "true"){
 				  _link.apply(this, arguments);
-				  var template = '<div ng-show="attrs.rotate" rotate-button btn-class="'+attrs.btnClass+'"'+' btn-glyph="'+attrs.btnGlyph+'"></div>';
+				  var template = '<div ng-show="rotateImgCropper.canvas.rotate" rotate-button btn-class="'+
+                                                      attrs.btnClass+'" btn-glyph="'+attrs.btnGlyph+'"></div>';
 				  // template logic
 				  var linkFn = $compile(template);
 				  var content = linkFn(scope);
@@ -68,12 +70,11 @@ angular.module('rotate-angular-img-cropper', ['angular-img-cropper']).config(fun
 								 };	 
 					  } 
 		  } //end rotate
-       }
 	 }; // end if
    };
     return $delegate;
   });
-}).directive('rotateButton', ['$rootScope','$timeout', function($rootScope, $timeout){
+}).directive('rotateButton', ['$rootScope','$timeout', function($rootScope){
 	return{
 		restrict: 'A',
 		replace: false,
@@ -83,9 +84,10 @@ angular.module('rotate-angular-img-cropper', ['angular-img-cropper']).config(fun
                   '        <div class="rotate-label">Rotate</div>' +
                   '    </div>'+
 		          '</div>'+
-				  '<div class="loading-spinner" ng-show="rotateImgCropper.spinner.loading " ng-style="rotateImgCropper.spinner.style">'+
-    	          '    <i style="font-size:60px"  class="fa fa-spinner fa-spin"></i>'+
-                  '</div>',
+				  '<div class="loading-spinner" ng-show="rotateImgCropper.spinner.loading"' +
+				      ' ng-style="rotateImgCropper.spinner.style">'+
+    	                          '    <i style="font-size:60px"  class="fa fa-spinner fa-spin"></i>'+
+                           '</div>',
 				  
 	    link: function(scope, element, attrs){
 			var top = element.offset().top;
@@ -96,9 +98,12 @@ angular.module('rotate-angular-img-cropper', ['angular-img-cropper']).config(fun
 			scope.rotateImgCropper.spinner.spinnerTop = {};
 			scope.rotateImgCropper.spinner.spinnerLeft = {};
 			scope.rotateImgCropper.spinner.spinnerTop = top + - 8 + (scope.rotateImgCropper.canvas.width / 2);
-			scope.rotateImgCropper.spinner.spinnerLeft =  left - spinnerWidth/2 + (scope.rotateImgCropper.canvas.height / 2); 
+			scope.rotateImgCropper.spinner.spinnerLeft =  left - spinnerWidth/2 + 
+			    (scope.rotateImgCropper.canvas.height / 2);
+			    
 			//subtract half of spinner width
-			scope.rotateImgCropper.spinner.style = {'position':'fixed','color':'yellow','left':scope.rotateImgCropper.spinner.spinnerLeft,
+			scope.rotateImgCropper.spinner.style = {'position':'fixed','color':'yellow',
+			    'left':scope.rotateImgCropper.spinner.spinnerLeft,
 				'margin':'auto','text-align':'center','top':scope.rotateImgCropper.spinner.spinnerTop,'z-index':505};
 			
 			//add classes to the rotate button	
@@ -115,4 +120,3 @@ angular.module('rotate-angular-img-cropper', ['angular-img-cropper']).config(fun
 		   }	  
 		};
 	}]);
-	
