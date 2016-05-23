@@ -14,7 +14,7 @@ angular.module('rotate-angular-img-cropper', ['angular-img-cropper']).config(fun
 			 //this is here for multiple canvases on a page
 			 if(attrs.rotate === "true"){
 				  _link.apply(this, arguments);
-				  var template = '<div rotate-button btn-class="'+attrs.btnClass+'"'+' btn-glyph="'+attrs.btnGlyph+'"></div>';
+				  var template = '<div ng-show="attrs.rotate" rotate-button btn-class="'+attrs.btnClass+'"'+' btn-glyph="'+attrs.btnGlyph+'"></div>';
 				  // template logic
 				  var linkFn = $compile(template);
 				  var content = linkFn(scope);
