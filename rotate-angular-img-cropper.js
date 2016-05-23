@@ -108,7 +108,7 @@ angular.module('rotate-angular-img-cropper', ['angular-img-cropper']).config(fun
 			element.bind('click', function(){
 				if(scope.croppedImage !== null){
 					scope.rotateImgCropper.spinner.loading = true;
-					$timeout(function(){$rootScope.$broadcast('rotatedCanvas');}, 2000);
+					$rootScope.$broadcast('rotatedCanvas');
 					scope.$apply();
 					}
 			});   
