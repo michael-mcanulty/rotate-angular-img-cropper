@@ -24,8 +24,7 @@ Or
 ```
 bower install rotate-angular-img-cropper
 ```
-<h1>Loading Spinner</h1>
-Must include FontAwesome to use the loading Spinner
+
 Add dependency
 
 
@@ -54,3 +53,5 @@ Add your custom button class, or use Twitter bootstrap. Also, pick an icon such 
  ...btn-class="btn btn-default btn-sm" btn-glyph="fa fa-repeat" rotate="true"></canvas>
 ```
 
+<h1>Loading Spinner</h1>
+Must include FontAwesome to use the loading Spinner
