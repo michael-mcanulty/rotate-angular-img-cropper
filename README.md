@@ -24,7 +24,8 @@ Or
 ```
 bower install rotate-angular-img-cropper
 ```
-
+<h1>Loading Spinner</h1>
+Must include FontAwesome to use the loading Spinner
 Add dependency
 
 
